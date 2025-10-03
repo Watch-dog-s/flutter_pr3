@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'AboutAppScreen.dart';
+import 'MessageScreen.dart';
 import 'ProfileScreen.dart';
+import 'SettingsScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,32 +12,25 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'практическая работа 3',
       theme: ThemeData(
-        // This is the theme of your application.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-
-
-
-      //задаём маршруты
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeProfileUserPage(title: 'Главный экран'),
         '/profile': (context) => const ProfileScreen(title: 'Профиль'),
-
+        '/settings': (context) => const SettingsScreen(title: 'Настройки'),
+        '/messages': (context) => const MessagesScreen(title: 'Сообщения'),
+        '/about_task': (context) => const MessagesScreen(title: 'Сообщения'),
+        '/about_app': (context) => const AboutAppScreen(title: 'О приложении'),
       },
-
     );
   }
 }
-
-
-
 
 class HomeProfileUserPage extends StatelessWidget{
   final String title;
@@ -42,38 +38,37 @@ class HomeProfileUserPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    final List<int> state = ModalRoute.of(context)!.settings.arguments as List<int>? ?? [0, 16];
+
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: const Center(child: NavigationButtons()),
+      body: Center(child: NavigationButtons(state: state)),
     );
   }
 }
 
-void NavigateTo(BuildContext context, String routeName) {
-  Navigator.pushNamed(context, routeName);
+void NavigateTo(BuildContext context, String route, List<int> state) {
+  Navigator.pushNamed(context, route, arguments: state);
 }
 
-
-
 class NavigationButtons extends StatelessWidget{
-  const NavigationButtons({super.key});
+  final List<int> state;
+  const NavigationButtons({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisAlignment: MainAxisAlignment.center,
       children:
       [
-        ElevatedButton(onPressed: () { NavigateTo(context, "/");  }, child: const Text("Главный экран")),
-        ElevatedButton(onPressed: () { NavigateTo(context, "/profile");  }, child: const Text("Профиль")),
-
-
+        ElevatedButton(onPressed: () { NavigateTo(context, "/", state);  }, child: const Text("Главный экран")),
+        ElevatedButton(onPressed: () { NavigateTo(context, "/profile", state);  }, child: const Text("Профиль")),
+        ElevatedButton(onPressed: () { NavigateTo(context, "/settings", state); }, child: const Text("Настройки")),
+        ElevatedButton(onPressed: () { NavigateTo(context, "/messages", state); }, child: const Text("Сообщения")),
+        ElevatedButton(onPressed: () { NavigateTo(context, "/about_app", state); }, child: const Text("О приложении")),
       ],
-
     );
-
   }
-
-  }
+}
 
 
 
