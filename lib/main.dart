@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'ProfileScreen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -16,7 +18,17 @@ class MyApp extends StatelessWidget {
         // This is the theme of your application.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: HomeProfileUserPage(title: 'практическая работа 3'),
+
+
+
+      //задаём маршруты
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomeProfileUserPage(title: 'Главный экран'),
+        '/profile': (context) => const ProfileScreen(title: 'Профиль'),
+
+      },
+
     );
   }
 }
@@ -31,12 +43,37 @@ class HomeProfileUserPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title))
+      appBar: AppBar(title: Text(title)),
+      body: const Center(child: NavigationButtons()),
     );
   }
 }
 
+void NavigateTo(BuildContext context, String routeName) {
+  Navigator.pushNamed(context, routeName);
+}
 
+
+
+class NavigationButtons extends StatelessWidget{
+  const NavigationButtons({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(mainAxisAlignment: MainAxisAlignment.center,
+      children:
+      [
+        ElevatedButton(onPressed: () { NavigateTo(context, "/");  }, child: const Text("Главный экран")),
+        ElevatedButton(onPressed: () { NavigateTo(context, "/profile");  }, child: const Text("Профиль")),
+
+
+      ],
+
+    );
+
+  }
+
+  }
 
 
 
