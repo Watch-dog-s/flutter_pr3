@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pr3/screens/MainScreen.dart';
 
-import 'AboutAppScreen.dart';
-import 'MessageScreen.dart';
-import 'ProfileScreen.dart';
-import 'SettingsScreen.dart';
+import 'screens/AboutAppScreen.dart';
+import 'screens/MessageScreen.dart';
+import 'screens/ProfileScreen.dart';
+import 'screens/SettingsScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,27 +26,12 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => const ProfileScreen(title: 'Профиль'),
         '/settings': (context) => const SettingsScreen(title: 'Настройки'),
         '/messages': (context) => const MessagesScreen(title: 'Сообщения'),
-        '/about_task': (context) => const MessagesScreen(title: 'Сообщения'),
         '/about_app': (context) => const AboutAppScreen(title: 'О приложении'),
       },
     );
   }
 }
 
-class HomeProfileUserPage extends StatelessWidget{
-  final String title;
-  const HomeProfileUserPage({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    final List<int> state = ModalRoute.of(context)!.settings.arguments as List<int>? ?? [0, 16];
-
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(child: NavigationButtons(state: state)),
-    );
-  }
-}
 
 void NavigateTo(BuildContext context, String route, List<int> state) {
   Navigator.pushNamed(context, route, arguments: state);
